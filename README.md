@@ -24,13 +24,12 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
 
 ## Clone Repository
 
-git clone https://github.com/JJTheDev/Weather-App
-cd weather-app
+1. cd weather-app
+2. git clone https://github.com/JJTheDev/Weather-App
 
 ## Get an API Key
 To fetch weather data, you'll need an API key from OpenWeatherMap. You can obtain one by signing up on their website: OpenWeatherMap API.
-
-🏆 The previous sections are the bare minimum, and your project will ultimately determine the content of this document. You might also want to consider adding the following sections.
+1. Make sure to register a new account if you dont have one to create a personal key for your api, it allows the creators track how your using the API
 
 ## Badges
 
@@ -40,7 +39,7 @@ Badges aren't necessary, per se, but they demonstrate street cred. Badges let ot
 
 ## Features
 
-If your project has a lot of features, list them here.
+1. Search your city
 
 ## How to Contribute
 
