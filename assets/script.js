@@ -1,9 +1,8 @@
-console.log("hi");
 
 // This function will get the value from the input box and trim any extra spaces
 
 function searchWeather() {
-    const city = document.getElementById('cityinput').Value.trim();
+    const city = document.getElementById('cityinput');
     if (city !== ''){
         fetchWeather(city);
     }else {
@@ -16,18 +15,22 @@ function searchWeather() {
 
 function fetchWeather(city){
     const apiKey = 'a6cc87d590c09a5d566799809d2001ae';
-    const apiURL = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}'
-}
+    const apiURL = 'https://api.openweathermap.org/data/2.5/forecast?weather={list.weather.id}&temp={list.main.temp}&appid={6cc87d590c09a5d566799809d2001ae}'
 
-// fetch data from the OpenWeathermap Api
-
-fetch(apiURL)
+    fetch(apiKey)
     .then(response => response.json())
     .then(data => {
         // call a function to display the 5-day forecast using the fetched data
         displayForecast(data);
     })
     .catch(error => console.error('Error fetching weather data', error));
+
+}
+
+// fetch data from the OpenWeathermap Api
+
+
+
 
 // Function to display 5-day forecast
 function displayForecast(data){
