@@ -1,72 +1,60 @@
-
-// This function will get the value from the input box and trim any extra spaces
+// script.js
 
 function searchWeather() {
-    const city = document.getElementById('cityinput');
-    if (city !== ''){
+    const city = document.getElementById('cityInput').value.trim();
+
+    if (city !== '') {
         fetchWeather(city);
-    }else {
+    } else {
         alert('Please enter a city name.');
     }
 }
 
-
-// This function is to fetch eather data 
-
-function fetchWeather(city){
+function fetchWeather(city) {
     const apiKey = 'a6cc87d590c09a5d566799809d2001ae';
-    const apiURL = 'https://api.openweathermap.org/data/2.5/forecast?weather={list.weather.id}&temp={list.main.temp}&appid={6cc87d590c09a5d566799809d2001ae}'
+    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
 
-    fetch(apiKey)
-    .then(response => response.json())
-    .then(data => {
-        // call a function to display the 5-day forecast using the fetched data
-        displayForecast(data);
-    })
-    .catch(error => console.error('Error fetching weather data', error));
-
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            displayWeather(data);
+        })
+        .catch(error => console.error('Error fetching weather data:', error));
 }
 
-// fetch data from the OpenWeathermap Api
+function displayWeather(data) {
+    const weatherContainer = document.getElementById('weather-container');
+    weatherContainer.innerHTML = '';
 
+    // Display current weather
+    const currentWeather = data.list[0];
+    const currentCard = createWeatherCard(currentWeather);
+    weatherContainer.appendChild(currentCard);
 
-
-
-// Function to display 5-day forecast
-function displayForecast(data){
-    const forecastContainer = document.getElementById('weatherResult');
-    // clear previous content in the container
-    forecastContainer.innerHTML = '';
-
-    for( let i =0; i < data.list.length; i += 8) {
-        const forcastItem = data.list[i]
-        const date = new date(forecasrItem.dt * 1000); // convert timestamp to date
-
-        // create paragraph elements for date, temprature, and description
-        const forecastCard = document.createElement('div');
-        forecastCard.className = 'forecast-card';
-
-        const dateElement = document.createElement('p');
-        dateElement.textContent = date.toDateString();
-
-        const tempratureElement = document.createElement('p');
-        tempratureElement.textcontent = "Temprature:${forecastItem.main.temp}°C`";
-        
-        const descriptionElement = document.createElement('p');
-        descriptionElement.textContent = 'Description ${forecastItem.weather[0].description}';
-
-        // Appenmd the paragraph elements to the forecast card 
-        
-        forecastCard.appendChild(dateElement);
-        forecastCard.appendChild(tempratureElement);
-        forecastCard.appendChild(descriptionElement);
-
-        //Append the forecast card to the forecast container 
-
-        forecastContainer.appendChild(forecastCard);
-
+    // Display 5-day forecast
+    for (let i = 1; i < data.list.length; i += 8) { // Get data for every 8th item (every 24 hours)
+        const forecastItem = data.list[i];
+        const forecastCard = createWeatherCard(forecastItem);
+        weatherContainer.appendChild(forecastCard);
     }
-
 }
 
-console.log('hi');
+function createWeatherCard(weatherItem) {
+    const card = document.createElement('div');
+    card.className = 'forecast-card';
+
+    const dateElement = document.createElement('p');
+    dateElement.textContent = new Date(weatherItem.dt * 1000).toDateString();
+
+    const temperatureElement = document.createElement('p');
+    temperatureElement.textContent = `Temperature: ${weatherItem.main.temp}°C`;
+
+    const descriptionElement = document.createElement('p');
+    descriptionElement.textContent = `Description: ${weatherItem.weather[0].description}`;
+
+    card.appendChild(dateElement);
+    card.appendChild(temperatureElement);
+    card.appendChild(descriptionElement);
+
+    return card;
+}
