@@ -28,7 +28,7 @@ function displayWeather(data) {
 
     // Display current weather
     const currentWeather = data.list[0];
-    const currentCard = createWeatherCard(currentWeather);
+    const currentCard = createWeatherCard(currentWeather, true);
     weatherContainer.appendChild(currentCard);
 
     // Display 5-day forecast
@@ -39,22 +39,26 @@ function displayWeather(data) {
     }
 }
 
-function createWeatherCard(weatherItem) {
+function createWeatherCard(weatherItem, isCurrent = false) {
     const card = document.createElement('div');
-    card.className = 'forecast-card';
+    card.className = 'weather-card';
 
     const dateElement = document.createElement('p');
-    dateElement.textContent = new Date(weatherItem.dt * 1000).toDateString();
+    dateElement.textContent = isCurrent ? 'Current Weather' : new Date(weatherItem.dt * 1000).toDateString();
 
     const temperatureElement = document.createElement('p');
     temperatureElement.textContent = `Temperature: ${weatherItem.main.temp}°C`;
 
-    const descriptionElement = document.createElement('p');
-    descriptionElement.textContent = `Description: ${weatherItem.weather[0].description}`;
+    const humidityElement = document.createElement('p');
+    humidityElement.textContent = `Humidity: ${weatherItem.main.humidity}%`;
+
+    const windElement = document.createElement('p');
+    windElement.textContent = `Wind Speed: ${weatherItem.wind.speed} m/s`;
 
     card.appendChild(dateElement);
     card.appendChild(temperatureElement);
-    card.appendChild(descriptionElement);
+    card.appendChild(humidityElement);
+    card.appendChild(windElement);
 
     return card;
 }
