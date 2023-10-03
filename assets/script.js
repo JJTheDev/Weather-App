@@ -1,64 +1,56 @@
-// script.js
+// Get the API key from the HTML file
+const apiKey = 'a6cc87d590c09a5d566799809d2001ae';
 
-function searchWeather() {
-    const city = document.getElementById('cityInput').value.trim();
+// Create a function to fetch the weather data
+async function fetchWeatherData(city) {
+  // Create an API request URL
+  const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
 
-    if (city !== '') {
-        fetchWeather(city);
-    } else {
-        alert('Please enter a city name.');
-    }
+  // Make the API request
+  const response = await fetch(apiUrl);
+
+  // Check if the response was successful
+  if (response.ok) {
+    // Parse the JSON response
+    const data = await response.json();
+
+    // Return the weather data
+    return data;
+  } else {
+    // Throw an error if the response was not successful
+    throw new Error('Could not fetch weather data');
+  }
 }
 
-function fetchWeather(city) {
-    const apiKey = 'a6cc87d590c09a5d566799809d2001ae';
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
+// Create a function to display the weather data
+function displayWeatherData(weatherData) {
+  // Get the current temperature
+  const temperature = weatherData.main.temp;
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            displayWeather(data);
-        })
-        .catch(error => console.error('Error fetching weather data:', error));
+  // Get the weather conditions
+  const weatherConditions = weatherData.weather[0].description;
+
+  // Get the humidity
+  const humidity = weatherData.main.humidity;
+
+  // Update the HTML elements with the weather data
+  document.getElementById('city-name').textContent = weatherData.name;
+  document.getElementById('temperature').textContent = `${temperature}°C`;
+  document.getElementById('humidity').textContent = `Humidity: ${humidity}%`;
+  document.getElementById('weather-conditions').textContent = weatherConditions;
 }
 
-function displayWeather(data) {
-    const weatherContainer = document.getElementById('weather-container');
-    weatherContainer.innerHTML = '';
+// Add an event listener to the search button
+document.getElementById('search-form').addEventListener('submit', async (event) => {
+  // Prevent the default form submission behavior
+  event.preventDefault();
 
-    // Display current weather
-    const currentWeather = data.list[0];
-    const currentCard = createWeatherCard(currentWeather, true);
-    weatherContainer.appendChild(currentCard);
+  // Get the city name from the search input
+  const city = document.getElementById('cityInput').value;
 
-    // Display 5-day forecast
-    for (let i = 1; i < data.list.length; i += 8) { // Get data for every 8th item (every 24 hours)
-        const forecastItem = data.list[i];
-        const forecastCard = createWeatherCard(forecastItem);
-        weatherContainer.appendChild(forecastCard);
-    }
-}
+  // Fetch the weather data for the city
+  const weatherData = await fetchWeatherData(city);
 
-function createWeatherCard(weatherItem, isCurrent = false) {
-    const card = document.createElement('div');
-    card.className = 'weather-card';
-
-    const dateElement = document.createElement('p');
-    dateElement.textContent = isCurrent ? 'Current Weather' : new Date(weatherItem.dt * 1000).toDateString();
-
-    const temperatureElement = document.createElement('p');
-    temperatureElement.textContent = `Temperature: ${weatherItem.main.temp}°C`;
-
-    const humidityElement = document.createElement('p');
-    humidityElement.textContent = `Humidity: ${weatherItem.main.humidity}%`;
-
-    const windElement = document.createElement('p');
-    windElement.textContent = `Wind Speed: ${weatherItem.wind.speed} m/s`;
-
-    card.appendChild(dateElement);
-    card.appendChild(temperatureElement);
-    card.appendChild(humidityElement);
-    card.appendChild(windElement);
-
-    return card;
-}
+  // Display the weather data
+  displayWeatherData(weatherData);
+});
