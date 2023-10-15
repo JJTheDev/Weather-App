@@ -1,103 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather App</title>
-  <style>
-    body {
-      font-family: sans-serif;
-    }
-
-    .container {
-      width: 500px;
-      margin: 0 auto;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    form {
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      margin-top: 10px;
-      background-color: #007bff;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-    }
-
-    #weather-container {
-      margin-bottom: 20px;
-    }
-
-    #city-name {
-      font-size: 24px;
-      text-align: center;
-    }
-
-    #temperature,
-    #humidity,
-    #weather-conditions {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    #weather-forecast {
-      margin-bottom: 20px;
-    }
-
-    .forecast-card {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .date {
-      width: 20%;
-    }
-
-    .temperature {
-      width: 20%;
-    }
-
-    .description {
-      width: 60%;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
 </head>
+
 <body>
-  <div class="container">
-    <h1>Weather App</h1>
+    <header>
+        <h1>Weather Dashboard</h1>
+    </header>
 
-    <form id="search-form">
-      <input type="text" id="cityInput" placeholder="Enter city name">
-      <button type="submit">Search</button>
-    </form>
+    <main>
+        <section class="search-section">
+            <h2>Search for a Place:</h2>
 
-    <div id="weather-container">
-      <h2 id="city-name"></h2>
-      <p id="temperature"></p>
-      <p id="humidity"></p>
-      <p id="weather-conditions"></p>
-    </div>
+            <form id="search-form">
+                <input id="search-input" type="text" placeholder="San Diego">
+                <button class="searchBtn">Search</button>
+            </form>
 
-    <div id="weather-forecast">
-      <h2>5-Day Forecast</h2>
-      </div>
-  </div>
 
-  <script src="script.js"></script>
+            <div class="places-searched">
+
+            </div>
+            <button class="clearBtn">Clear Search History</button>
+        </section>
+
+        <section class="display-place">
+            <div class="display-today">
+                <div class="currentDayWeather">
+
+                </div>
+
+            </div>
+
+            <div class="display-five-day">
+                <h2>5-Day Forecast:</h2>
+                <div class="fiveDayWeather">
+                    <div class="display"></div>
+                    <div class="display"></div>
+                    <div class="display"></div>
+                    <div class="display"></div>
+                    <div class="display"></div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <h4>© Juan Jimenez 2023</h4>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js" integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
+    <script src="./assets/script.js"></script>
 </body>
+
 </html>
